@@ -8,14 +8,17 @@
 struct Posit {
     posit_t value;
 
-    Posit() { }
+    explicit Posit() { }
 
-    // default assignment behavior: convert int to posit
+    // default constructor: convert int/uint to posit
     // this is similar to universal numbers behavior
     // for float, consider `constexpr` with `universal`
     // which should be coded at application level
-    Posit(INT_TYPE x) {
+    explicit Posit(INT_TYPE x) {
         value = pcvtsw(x);
+    }
+    explicit Posit(UINT_TYPE x) {
+        value = pcvtswu(x);
     }
 
     // call `from_bits` to directly set posit numbers
@@ -23,6 +26,14 @@ struct Posit {
         Posit p;
         p.value = x;
         return p;
+    }
+
+    explicit operator INT_TYPE() const {
+        return pcvtws(value);
+    }
+
+    explicit operator UINT_TYPE() const {
+        return pcvtwus(value);
     }
 };
 
@@ -35,10 +46,51 @@ static inline Posit operator+(Posit x, Posit y) {
     return x += y;
 }
 
-// if comparing directly with a non-posit variable
-// the other variable would be assumed as int and converted to posit
+static inline Posit& operator-=(Posit& x, Posit y) {
+    x.value = psub(x.value, y.value);
+    return x;
+}
+
+static inline Posit operator-(Posit x, Posit y) {
+    return x -= y;
+}
+
+static inline Posit& operator*=(Posit& x, Posit y) {
+    x.value = pmul(x.value, y.value);
+    return x;
+}
+
+static inline Posit operator*(Posit x, Posit y) {
+    return x *= y;
+}
+
+static inline Posit& operator/=(Posit& x, Posit y) {
+    x.value = pdiv(x.value, y.value);
+    return x;
+}
+
+static inline Posit operator/(Posit x, Posit y) {
+    return x /= y;
+}
+
 static inline bool operator==(Posit x, Posit y) {
     return peq(x.value, y.value);
+}
+
+static inline bool operator<(Posit x, Posit y) {
+    return plt(x.value, y.value);
+}
+
+static inline bool operator>(Posit x, Posit y) {
+    return !ple(x.value, y.value);
+}
+
+static inline bool operator<=(Posit x, Posit y) {
+    return ple(x.value, y.value);
+}
+
+static inline bool operator>=(Posit x, Posit y) {
+    return !plt(x.value, y.value);
 }
 
 #endif
