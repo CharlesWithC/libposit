@@ -1,4 +1,4 @@
-// main.c
+// main.cpp
 // Run tests on full operator overload library
 
 extern "C" {
