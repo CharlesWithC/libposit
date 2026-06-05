@@ -31,36 +31,17 @@
 
 typedef INT_TYPE posit_t;
 
-// NOTE: Observation on a weird hardware / compiler issue
-//
-// When `ple_test` is executed, side effects may cause `padd` - `psqrt` to fail,
-// where variable `result` is not written at all (i.e. unchanged from init value).
-//
-// A possible explanation is that compiler is using some cached values, and thus
-// not writing data to `result` at all; Or, some hardware bug caused certain
-// instructions (such as `psw`) to not do anything / write result to register;
-// Or, the hardware may require certain timing conditions to be satisfied, where
-// a register may save garbage if used too early.
-//
-// Adding `memory` to clobber does not fix the issue. The current workaround is
-// to load a value to the result register, BEFORE loading input values. Note that,
-// if result register is loaded AFTER input values, then garbage results could be
-// produced, and simply compiling with more tests could make previous tests fail.
-
-static const posit_t _zero = 0;
-
 static inline posit_t padd(posit_t x, posit_t y) {
     posit_t result = 0;
 
     asm inline volatile (
         "plw    pt0,%1      \n"
         "plw    pt1,%2      \n"
-        "plw    pt2,%3      \n"
         "padd.s pt2,pt0,pt1 \n"
         "psw    pt2,%0      \n"
 
         : "=m" (result)
-        : "m" (x), "m" (y), "m" (_zero)
+        : "m" (x), "m" (y), "rm" (result)
         :
     );
 
@@ -73,12 +54,11 @@ static inline posit_t psub(posit_t x, posit_t y) {
     asm inline volatile (
         "plw    pt0,%1      \n"
         "plw    pt1,%2      \n"
-        "plw    pt2,%3      \n"
         "psub.s pt2,pt0,pt1 \n"
         "psw    pt2,%0      \n"
 
         : "=m" (result)
-        : "m" (x), "m" (y), "m" (_zero)
+        : "m" (x), "m" (y), "rm" (result)
         :
     );
 
@@ -91,12 +71,11 @@ static inline posit_t pmul(posit_t x, posit_t y) {
     asm inline volatile (
         "plw    pt0,%1      \n"
         "plw    pt1,%2      \n"
-        "plw    pt2,%3      \n"
         "pmul.s pt2,pt0,pt1 \n"
         "psw    pt2,%0      \n"
 
         : "=m" (result)
-        : "m" (x), "m" (y), "m" (_zero)
+        : "m" (x), "m" (y), "rm" (result)
         :
     );
 
@@ -109,12 +88,11 @@ static inline posit_t pdiv(posit_t x, posit_t y) {
     asm inline volatile (
         "plw    pt0,%1      \n"
         "plw    pt1,%2      \n"
-        "plw    pt2,%3      \n"
         "pdiv.s pt2,pt0,pt1 \n"
         "psw    pt2,%0      \n"
 
         : "=m" (result)
-        : "m" (x), "m" (y), "m" (_zero)
+        : "m" (x), "m" (y), "rm" (result)
         :
     );
 
@@ -126,12 +104,11 @@ static inline posit_t psqrt(posit_t x) {
 
     asm inline volatile (
         "plw    pt0,%1      \n"
-        "plw    pt1,%2      \n"
         "psqrt.s pt1,pt0    \n"
         "psw    pt1,%0      \n"
 
         : "=m" (result)
-        : "m" (x), "m" (_zero)
+        : "m" (x), "rm" (result)
         :
     );
 
@@ -148,7 +125,7 @@ static inline posit_t pmin(posit_t x, posit_t y) {
         "psw    pt2,%0      \n"
 
         : "=m" (result)
-        : "m" (x), "m" (y)
+        : "m" (x), "m" (y), "rm" (result)
         :
     );
 
@@ -165,7 +142,7 @@ static inline posit_t pmax(posit_t x, posit_t y) {
         "psw    pt2,%0      \n"
 
         : "=m" (result)
-        : "m" (x), "m" (y)
+        : "m" (x), "m" (y), "rm" (result)
         :
     );
 
@@ -210,7 +187,7 @@ static inline posit_t pcvtsw(INT_TYPE x) {
         "psw    pt0,%0     \n"
 
         : "=m" (result)
-        : "r" (x)
+        : "r" (x), "rm" (result)
         :
     );
 
@@ -225,7 +202,7 @@ static inline posit_t pcvtswu(UINT_TYPE x) {
         "psw    pt0,%0     \n"
 
         : "=m" (result)
-        : "r" (x)
+        : "r" (x), "rm" (result)
         :
     );
 
