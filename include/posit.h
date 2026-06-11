@@ -16,13 +16,13 @@
 // Note that nesting `pmvxw` call is safe and efficient, as LLVM optimizes away
 // redundant `pmvxw` call if the value is already in GPR.
 //
-// The `pmv` call is NOT built into any operations provided by the library, in
+// The `pmvxw` call is NOT built into any arithmetic operations in the lib, in
 // order to allow LLVM to optimize register allocation by keeping Pos numbers
 // inside PosReg, and reduce number of reg-to-reg copies during Pos arithmetic.
 //
 // The hardware hazard theory is only a hypothesis and is not confirmed. There
 // may be a bug in llvm-xposit that caused this issue, but the author cannot
-// discover such an issue. Also, note that `pmv.w.x` is likely safe.
+// discover such an issue. Also, note that `pmv.w.x` is likely not vulnerable.
 // ============================================================================
 
 #ifndef POSIT_H
