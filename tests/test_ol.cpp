@@ -15,14 +15,15 @@ int padd_test_ol() {
     f = c + b;
     g = a + c;
 
-    if (d.value == 0x7F99756F && e.value == 0x7F99756F
-            && f.value == 0x807889A6 && g.value == 0x7F409920) {
+    if (d.value() == 0x7F99756F && e.value() == 0x7F99756F
+            && f.value() == 0x807889A6 && g.value() == 0x7F409920) {
         printf("PADD test_ol OK\n");
         return 0;
     }
     else {
         printf("PADD test_ol FAIL - Values: %x %x %x %x %x %x %x\n",
-            a.value, b.value, c.value, d.value, e.value, f.value, g.value);
+            a.value(), b.value(), c.value(), d.value(),
+            e.value(), f.value(), g.value());
         return 1;
     }
 }
@@ -38,14 +39,15 @@ int psub_test_ol() {
     f = c - b;
     g = a - c;
 
-    if (d.value == 0x7F8B897E && e.value == 0x80747682
-        && f.value == 0x80689423 && g.value == 0x7FA2984E) {
+    if (d.value() == 0x7F8B897E && e.value() == 0x80747682
+        && f.value() == 0x80689423 && g.value() == 0x7FA2984E) {
         printf("PSUB test_ol OK\n");
         return 0;
     }
     else {
         printf("PSUB test_ol FAIL - Values: %x %x %x %x %x %x %x\n",
-            a.value, b.value, c.value, d.value, e.value, f.value, g.value);
+            a.value(), b.value(), c.value(), d.value(),
+            e.value(), f.value(), g.value());
         return 1;
     }
 }
@@ -61,14 +63,15 @@ int pmul_test_ol() {
     f = c * b;
     g = a * c;
 
-    if (d.value == 0x7EDAD7ED && e.value == 0x7EDAD7ED
-        && f.value == 0x8087DEE8 && g.value == 0x8209467B) {
+    if (d.value() == 0x7EDAD7ED && e.value() == 0x7EDAD7ED
+        && f.value() == 0x8087DEE8 && g.value() == 0x8209467B) {
         printf("PMUL test_ol OK\n");
         return 0;
     }
     else {
         printf("PMUL test_ol FAIL - Values: %x %x %x %x %x %x %x\n",
-            a.value, b.value, c.value, d.value, e.value, f.value, g.value);
+            a.value(), b.value(), c.value(), d.value(),
+            e.value(), f.value(), g.value());
         return 1;
     }
 }
@@ -87,14 +90,16 @@ int pdiv_test_ol() {
     g = a / c;
     h = a / zero;
 
-    if (d.value == 0x1065495c && e.value == 0x6f47a910
-        && f.value == 0xdd22e2b3 && g.value == 0xe186b030 && h.value == 0x80000000) {
+    if (d.value() == 0x1065495c && e.value() == 0x6f47a910
+        && f.value() == 0xdd22e2b3 && g.value() == 0xe186b030
+        && h.value() == 0x80000000) {
         printf("PDIV test_ol OK\n");
         return 0;
     }
     else {
         printf("PDIV test_ol FAIL - Values: %x %x %x %x %x %x %x %x\n",
-            a.value, b.value, c.value, d.value, e.value, f.value, g.value, h.value);
+            a.value(), b.value(), c.value(), d.value(),
+            e.value(), f.value(), g.value(), h.value());
         return 1;
     }
 }
@@ -116,7 +121,7 @@ int pcvtws_test_ol() {  // Pos to int
     }
     else {
         printf("PCVTWS test_ol FAIL - Values: %x %x %x %x %x %x\n",
-            a.value, b.value, c.value, d, e, f);
+            a.value(), b.value(), c.value(), d, e, f);
         return 1;
     }
 }
@@ -138,7 +143,7 @@ int pcvtwus_test_ol() {  // Pos to unsigned int
     }
     else {
         printf("PCVTWUS test_ol FAIL - Values: %x %x %x %x %x %x\n",
-            a.value, b.value, c.value, d, e, f);
+            a.value(), b.value(), c.value(), d, e, f);
         return 1;
     }
 }
@@ -154,13 +159,14 @@ int pcvtsw_test_ol() {  // Int to pos
     e = Posit(b);
     f = Posit(c);
 
-    if (d.value == 0x7F939D17 && e.value == 0x7F6EC2BF && f.value == 0x806E6C7B) {
+    if (d.value() == 0x7F939D17 && e.value() == 0x7F6EC2BF
+        && f.value() == 0x806E6C7B) {
         printf("PCVTSW test_ol OK\n");
         return 0;
     }
     else {
         printf("PCVTSW test_ol FAIL - Values: %x %x %x %x %x %x\n",
-            a, b, c, d.value, e.value, f.value);
+            a, b, c, d.value(), e.value(), f.value());
         return 1;
     }
 }
@@ -176,13 +182,13 @@ int pcvtswu_test_ol() {  // Unsigned int to pos
     e = Posit(b);
     f = Posit(c);
 
-    if (d.value == 0x7FB87B7D && e.value == 0x7F6EC2BF && f.value == 0) {
+    if (d.value() == 0x7FB87B7D && e.value() == 0x7F6EC2BF && f.value() == 0) {
         printf("PCVTSWU test_ol OK\n");
         return 0;
     }
     else {
         printf("PCVTSWU test_ol FAIL - Values: %x %x %x %x %x %x\n",
-            a, b, c, d.value, e.value, f.value);
+            a, b, c, d.value(), e.value(), f.value());
         return 1;
     }
 }
@@ -204,7 +210,7 @@ int peq_test_ol() {
     }
     else {
         printf("PEQ test_ol FAIL - Values: %x %x %x %x %x %x\n",
-            a.value, b.value, c.value, d, e, f);
+            a.value(), b.value(), c.value(), d, e, f);
         return 1;
     }
 }
@@ -228,7 +234,7 @@ int plt_test_ol() {
     }
     else {
         printf("PLT test_ol FAIL - Values: %x %x %x %x %x %x %x %x\n",
-            a.value, b.value, c.value, d, e, f, g, h);
+            a.value(), b.value(), c.value(), d, e, f, g, h);
         return 1;
     }
 }
@@ -251,7 +257,7 @@ int ple_test_ol() {
     }
     else {
         printf("PLE test_ol FAIL - Values: %x %x %x %x %x %x %x\n",
-            a.value, b.value, c.value, d, e, f, g);
+            a.value(), b.value(), c.value(), d, e, f, g);
         return 1;
     }
 }

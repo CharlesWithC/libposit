@@ -5,9 +5,10 @@
 
 #include "posit.h"
 
-struct Posit {
-    posit_t value;
+class Posit {
+    posit_t v; // private field, use `value` method
 
+public:
     explicit Posit() { }
 
     // default constructor: convert int/uint to posit
@@ -15,82 +16,69 @@ struct Posit {
     // for float, consider `constexpr` with `universal`
     // which should be coded at application level
     explicit Posit(INT_TYPE x) {
-        value = pcvtsw(x);
+        v = pcvtsw(x);
     }
     explicit Posit(UINT_TYPE x) {
-        value = pcvtswu(x);
+        v = pcvtswu(x);
+    }
+
+    posit_t value() {
+        // move value from PosReg to GPR before allowing direct usage
+        // read comment in `posit.h` for more information
+        return pmvxw(v);
+    }
+
+    posit_t value_unsafe() {
+        // access value directly; this is potentially unsafe
+        return v;
     }
 
     // call `from_bits` to directly set posit numbers
     static Posit from_bits(posit_t x){
         Posit p;
-        p.value = x;
+        p.v = x; // do not call pmvwx and let llvm do that optimization
         return p;
     }
 
     explicit operator INT_TYPE() const {
-        return pcvtws(value);
+        return pcvtws(v);
     }
 
     explicit operator UINT_TYPE() const {
-        return pcvtwus(value);
+        return pcvtwus(v);
     }
+
+    Posit& operator+=(Posit y) {
+        v = padd(v, y.v);
+        return *this;
+    }
+
+    Posit& operator-=(Posit y) {
+        v = psub(v, y.v);
+        return *this;
+    }
+
+    Posit& operator*=(Posit y) {
+        v = pmul(v, y.v);
+        return *this;
+    }
+
+    Posit& operator/=(Posit y) {
+        v = pdiv(v, y.v);
+        return *this;
+    }
+
+    friend inline Posit operator+(Posit x, Posit y) { return x += y; }
+    friend inline Posit operator-(Posit x, Posit y) { return x -= y; }
+    friend inline Posit operator*(Posit x, Posit y) { return x *= y; }
+    friend inline Posit operator/(Posit x, Posit y) { return x /= y; }
+
+    friend inline bool operator==(Posit x, Posit y) { return peq(x.v, y.v); }
+    friend inline bool operator< (Posit x, Posit y) { return plt(x.v, y.v); }
+    friend inline bool operator<=(Posit x, Posit y) { return ple(x.v, y.v); }
+
+    friend inline bool operator> (Posit x, Posit y) { return !ple(x.v, y.v); }
+    friend inline bool operator>=(Posit x, Posit y) { return !plt(x.v, y.v); }
 };
-
-static inline Posit& operator+=(Posit& x, Posit y) {
-    x.value = padd(x.value, y.value);
-    return x;
-}
-
-static inline Posit operator+(Posit x, Posit y) {
-    return x += y;
-}
-
-static inline Posit& operator-=(Posit& x, Posit y) {
-    x.value = psub(x.value, y.value);
-    return x;
-}
-
-static inline Posit operator-(Posit x, Posit y) {
-    return x -= y;
-}
-
-static inline Posit& operator*=(Posit& x, Posit y) {
-    x.value = pmul(x.value, y.value);
-    return x;
-}
-
-static inline Posit operator*(Posit x, Posit y) {
-    return x *= y;
-}
-
-static inline Posit& operator/=(Posit& x, Posit y) {
-    x.value = pdiv(x.value, y.value);
-    return x;
-}
-
-static inline Posit operator/(Posit x, Posit y) {
-    return x /= y;
-}
-
-static inline bool operator==(Posit x, Posit y) {
-    return peq(x.value, y.value);
-}
-
-static inline bool operator<(Posit x, Posit y) {
-    return plt(x.value, y.value);
-}
-
-static inline bool operator>(Posit x, Posit y) {
-    return !ple(x.value, y.value);
-}
-
-static inline bool operator<=(Posit x, Posit y) {
-    return ple(x.value, y.value);
-}
-
-static inline bool operator>=(Posit x, Posit y) {
-    return !plt(x.value, y.value);
-}
 
 #endif

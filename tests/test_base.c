@@ -15,8 +15,8 @@ int padd_test() {
     f = padd(c, b);
     g = padd(a, c);
 
-    if (d == 0x7F99756F && e == 0x7F99756F
-            && f == 0x807889A6 && g == 0x7F409920) {
+    if (pmvxw(d) == 0x7F99756F && pmvxw(e) == 0x7F99756F
+            && pmvxw(f) == 0x807889A6 && pmvxw(g) == 0x7F409920) {
         printf("PADD test OK\n");
         return 0;
     }
@@ -38,8 +38,8 @@ int psub_test() {
     f = psub(c, b);
     g = psub(a, c);
 
-    if (d == 0x7F8B897E && e == 0x80747682
-        && f == 0x80689423 && g == 0x7FA2984E) {
+    if (pmvxw(d) == 0x7F8B897E && pmvxw(e) == 0x80747682
+        && pmvxw(f) == 0x80689423 && pmvxw(g) == 0x7FA2984E) {
         printf("PSUB test OK\n");
         return 0;
     }
@@ -61,8 +61,8 @@ int pmul_test() {
     f = pmul(c, b);
     g = pmul(a, c);
 
-    if (d == 0x7EDAD7ED && e == 0x7EDAD7ED
-        && f == 0x8087DEE8 && g == 0x8209467B) {
+    if (pmvxw(d) == 0x7EDAD7ED && pmvxw(e) == 0x7EDAD7ED
+        && pmvxw(f) == 0x8087DEE8 && pmvxw(g) == 0x8209467B) {
         printf("PMUL test OK\n");
         return 0;
     }
@@ -87,8 +87,9 @@ int pdiv_test() {
     g = pdiv(a, c);
     h = pdiv(a, zero);
 
-    if (d == 0x1065495c && e == 0x6f47a910
-        && f == 0xdd22e2b3 && g == 0xe186b030 && h == 0x80000000) {
+    if (pmvxw(d) == 0x1065495c && pmvxw(e) == 0x6f47a910
+        && pmvxw(f) == 0xdd22e2b3 && pmvxw(g) == 0xe186b030
+        && pmvxw(h) == 0x80000000) {
         printf("PDIV test OK\n");
         return 0;
     }
@@ -109,7 +110,8 @@ int psqrt_test() {
     e = psqrt(b);
     f = psqrt(c);
 
-    if (d == 0x5F0935EA && e == 0x6F2BF261 && f == 0x80000000) {
+    if (pmvxw(d) == 0x5F0935EA && pmvxw(e) == 0x6F2BF261
+        && pmvxw(f) == 0x80000000) {
         printf("PSQRT test OK\n");
         return 0;
     }
@@ -131,8 +133,8 @@ int pmin_test() {
     f = pmin(c, a);
     g = pmin(c, c);
 
-    if (d == 0x7F6EC2BF && e == 0x7F6EC2BF
-        && f == 0x806E6C7B && g == 0x806E6C7B) {
+    if (pmvxw(d) == 0x7F6EC2BF && pmvxw(e) == 0x7F6EC2BF
+        && pmvxw(f) == 0x806E6C7B && pmvxw(g) == 0x806E6C7B) {
         printf("PMIN test OK\n");
         return 0;
     }
@@ -154,8 +156,8 @@ int pmax_test() {
     f = pmax(c, a);
     g = pmax(c, c);
 
-    if (d == 0x7F939D17 && e == 0x7F939D17
-        && f == 0x7F939D17 && g == 0x806E6C7B) {
+    if (pmvxw(d) == 0x7F939D17 && pmvxw(e) == 0x7F939D17
+        && pmvxw(f) == 0x7F939D17 && pmvxw(g) == 0x806E6C7B) {
         printf("PMAX test OK\n");
         return 0;
     }
