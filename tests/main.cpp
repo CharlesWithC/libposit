@@ -22,10 +22,6 @@ void posit32_full_tests() {
     result += psqrt_test();
     result += pmin_test();
     result += pmax_test();
-    result += pcvtws_test();
-    result += pcvtwus_test();
-    result += pcvtsw_test();
-    result += pcvtswu_test();
     result += peq_test();
     result += plt_test();
     result += ple_test();
@@ -35,10 +31,9 @@ void posit32_full_tests() {
     result += psub_test_ol();
     result += pmul_test_ol();
     result += pdiv_test_ol();
-    result += pcvtws_test_ol();
-    result += pcvtwus_test_ol();
-    result += pcvtsw_test_ol();
-    result += pcvtswu_test_ol();
+    result += psqrt_test_ol();
+    result += pmin_test_ol();
+    result += pmax_test_ol();
     result += peq_test_ol();
     result += plt_test_ol();
     result += ple_test_ol();

@@ -18,10 +18,6 @@ void posit32_base_tests() {
     result += psqrt_test();
     result += pmin_test();
     result += pmax_test();
-    result += pcvtws_test();
-    result += pcvtwus_test();
-    result += pcvtsw_test();
-    result += pcvtswu_test();
     result += peq_test();
     result += plt_test();
     result += ple_test();

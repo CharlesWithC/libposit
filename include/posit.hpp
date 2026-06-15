@@ -5,47 +5,45 @@
 
 #include "posit.h"
 
+// NOTE: It seems there is hardware latency issue on plw/psw/pmv.w.x/pmv.x.w
+// Various approaches of load/store/copy were attempted, and it was observed
+// that using `pmv.w.x` to load a posit value from integer in GPR, and using
+// `psw` to store a posit value to integer in memory is the only combination
+// that works for both posit16 and posit32. The cause is to be investigated.
+
 class Posit {
     posit_t v; // private field, use `value` method
 
 public:
     explicit Posit() { }
 
-    // default constructor: convert int/uint to posit
-    // this is similar to universal numbers behavior
-    // for float, consider `constexpr` with `universal`
-    // which should be coded at application level
-    explicit Posit(INT_TYPE x) {
-        v = pcvtsw(x);
-    }
-    explicit Posit(UINT_TYPE x) {
-        v = pcvtswu(x);
-    }
-
     posit_t value() {
-        // move value from PosReg to GPR before allowing direct usage
-        // read comment in `posit.h` for more information
-        return pmvxw(v);
-    }
-
-    posit_t value_unsafe() {
-        // access value directly; this is potentially unsafe
-        return v;
+        return psw(v);
     }
 
     // call `from_bits` to directly set posit numbers
     static Posit from_bits(posit_t x){
         Posit p;
-        p.v = x; // do not call pmvwx and let llvm do that optimization
+        p.v = pmvwx(x);
         return p;
     }
 
-    explicit operator INT_TYPE() const {
-        return pcvtws(v);
+    static Posit min(Posit x, Posit y){
+        Posit p;
+        p.v = pmin(x.v, y.v);
+        return p;
     }
 
-    explicit operator UINT_TYPE() const {
-        return pcvtwus(v);
+    static Posit max(Posit x, Posit y){
+        Posit p;
+        p.v = pmax(x.v, y.v);
+        return p;
+    }
+
+    static Posit sqrt(Posit x){
+        Posit p;
+        p.v = psqrt(x.v);
+        return p;
     }
 
     Posit& operator+=(Posit y) {

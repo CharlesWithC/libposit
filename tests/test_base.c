@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#include "posit.h"
-
 #include "test_base.h"
+
+#include "posit.h"
 
 int padd_test() {
     posit_t a, b, c, d, e, f, g;
@@ -164,94 +164,6 @@ int pmax_test() {
     else {
         printf("PMAX test FAIL - Values: %x %x %x %x %x %x %x\n",
                a, b, c, d, e, f, g);
-        return 1;
-    }
-}
-
-int pcvtws_test() {  // Pos to int
-    posit_t a, b, c;
-    int32_t d, e, f;
-
-    a = 0x7F939D17;
-    b = 0x7F6EC2BF;
-    c = 0x806E6C7B;
-    d = pcvtws(a);
-    e = pcvtws(b);
-    f = pcvtws(c);
-
-    if (d == 658124288 && e == 196128704 && f == -589761024) {
-        printf("PCVTWS test OK\n");
-        return 0;
-    }
-    else {
-        printf("PCVTWS test FAIL - Values: %x %x %x %x %x %x\n",
-            a, b, c, d, e, f);
-        return 1;
-    }
-}
-
-int pcvtwus_test() {  // Pos to unsigned int
-    posit_t a, b, c;
-    uint32_t d, e, f;
-
-    a = 0x7FB87B7D;
-    b = 0x7F6EC2BF;
-    c = 0x806E6C7B;
-    d = pcvtwus(a);
-    e = pcvtwus(b);
-    f = pcvtwus(c);
-
-    if (d == 3285968896 && e == 196128704 && f == 0) {
-        printf("PCVTWUS test OK\n");
-        return 0;
-    }
-    else {
-        printf("PCVTWUS test FAIL - Values: %x %x %x %x %x %x\n",
-            a, b, c, d, e, f);
-        return 1;
-    }
-}
-
-int pcvtsw_test() {  // Int to pos
-    int32_t a, b, c;
-    posit_t d, e, f;
-
-    a = 658124290;  // Round -> 658124288 (Posit 0x7F939D17)
-    b = 196128700;  // Round -> 196128704 (Posit 0x7F6EC2BF)
-    c = -589761023; // Round -> -589761024 (Posit 0x806E6C7B)
-    d = pcvtsw(a);
-    e = pcvtsw(b);
-    f = pcvtsw(c);
-
-    if (d == 0x7F939D17 && e == 0x7F6EC2BF && f == 0x806E6C7B) {
-        printf("PCVTSW test OK\n");
-        return 0;
-    }
-    else {
-        printf("PCVTSW test FAIL - Values: %x %x %x %x %x %x\n",
-            a, b, c, d, e, f);
-        return 1;
-    }
-}
-
-int pcvtswu_test() {  // Unsigned int to pos
-    uint32_t a, b, c;
-    posit_t d, e, f;
-
-    a = 3285968897; // Round -> 3285968896 (Posit 0x7FB87B7D)
-    b = 196128700;  // Round -> 196128704 (Posit 0x7F6EC2BF)
-    c = 0;          // Round -> 0 (Posit 0x00000000)
-    d = pcvtswu(a);
-    e = pcvtswu(b);
-    f = pcvtswu(c);
-
-    if (d == 0x7FB87B7D && e == 0x7F6EC2BF && f == 0) {
-        printf("PCVTSWU test OK\n");
-        return 0;
-    }
-    else {
-        printf("PCVTSWU test FAIL - Values: %x %x %x %x %x %x\n",
-            a, b, c, d, e, f);
         return 1;
     }
 }
