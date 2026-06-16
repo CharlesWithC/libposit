@@ -6,25 +6,14 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-// allow custom config for posit bits
-// default: 32 bits
-#ifndef POSIT_BITS
-#define POSIT_BITS 32
-#endif
-
-#if POSIT_BITS == 16
-#define UINT_TYPE uint16_t
-#define INT_TYPE int16_t
-#else
-#if POSIT_BITS == 32
-#define UINT_TYPE uint32_t
-#define INT_TYPE int32_t
-#else
-#error "Invalid POSIT_BITS"
-#endif
-#endif
-
-typedef UINT_TYPE posit_t;
+// use uint32_t for both posit16 and posit32 because GPR is 32bit
+// uint16_t may cause unexpected behaviors
+// this should be improved in the future along with llvm-xposit
+//
+// note: this library targets hardware that supports EITHER posit16 OR posit32
+// i.e. the hardware is synthesized for only one of them, and same instruction
+// is used for both posit sizes. thus this library does not care posit size.
+typedef uint32_t posit_t;
 
 static inline posit_t padd(posit_t x, posit_t y) {
     posit_t result = 0;

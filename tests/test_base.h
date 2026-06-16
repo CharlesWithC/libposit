@@ -1,9 +1,6 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-// FUSESOC --flag=use_posit32
-#define POSIT_BITS 32
-
 int padd_test();
 int psub_test();
 int pmul_test();

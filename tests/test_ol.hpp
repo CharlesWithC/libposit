@@ -1,8 +1,5 @@
 #pragma once
 
-// FUSESOC --flag=use_posit32
-#define POSIT_BITS 32
-
 int padd_test_ol();
 int psub_test_ol();
 int pmul_test_ol();
