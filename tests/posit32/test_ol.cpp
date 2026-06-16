@@ -4,7 +4,7 @@
 
 #include "posit.hpp"
 
-int padd_test_ol() {
+int p32add_test_ol() {
     Posit a, b, c, d, e, f, g;
 
     a = Posit::from_bits(0x7F939D17); // Posit  658124288
@@ -28,7 +28,7 @@ int padd_test_ol() {
     }
 }
 
-int psub_test_ol() {
+int p32sub_test_ol() {
     Posit a, b, c, d, e, f, g;
 
     a = Posit::from_bits(0x7F939D17); // Posit  658124288
@@ -52,7 +52,7 @@ int psub_test_ol() {
     }
 }
 
-int pmul_test_ol() {
+int p32mul_test_ol() {
     Posit a, b, c, d, e, f, g;
 
     a = Posit::from_bits(0x6F10A532); // Posit  226.08066177368164
@@ -76,7 +76,7 @@ int pmul_test_ol() {
     }
 }
 
-int pdiv_test_ol() {
+int p32div_test_ol() {
     Posit a, b, c, d, e, f, g, h, zero;
 
     zero = Posit::from_bits(0); // convert from int 0
@@ -104,7 +104,7 @@ int pdiv_test_ol() {
     }
 }
 
-int psqrt_test() {
+int p32sqrt_test_ol() {
     Posit a, b, c, d, e, f;
 
     a = Posit::from_bits(0x6F10A532); // Posit  226.08066177368164
@@ -127,8 +127,8 @@ int psqrt_test() {
     }
 }
 
-int pmin_test() {
-    posit_t a, b, c, d, e, f, g;
+int p32min_test_ol() {
+    Posit a, b, c, d, e, f, g;
 
     a = Posit::from_bits(0x7F939D17); // Posit  658124288
     b = Posit::from_bits(0x7F6EC2BF); // Posit  196128704
@@ -151,8 +151,8 @@ int pmin_test() {
     }
 }
 
-int pmax_test() {
-    posit_t a, b, c, d, e, f, g;
+int p32max_test_ol() {
+    Posit a, b, c, d, e, f, g;
 
     a = Posit::from_bits(0x7F939D17); // Posit  658124288
     b = Posit::from_bits(0x7F6EC2BF); // Posit  196128704
@@ -175,7 +175,7 @@ int pmax_test() {
     }
 }
 
-int peq_test_ol() {
+int p32eq_test_ol() {
     Posit a, b, c;
     bool d, e, f;
 
@@ -197,7 +197,7 @@ int peq_test_ol() {
     }
 }
 
-int plt_test_ol() {
+int p32lt_test_ol() {
     Posit a, b, c;
     bool d, e, f, g, h;
 
@@ -221,7 +221,7 @@ int plt_test_ol() {
     }
 }
 
-int ple_test_ol() {
+int p32le_test_ol() {
     Posit a, b, c;
     bool d, e, f, g;
 

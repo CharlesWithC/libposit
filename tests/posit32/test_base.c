@@ -4,7 +4,7 @@
 
 #include "posit.h"
 
-int padd_test() {
+int p32add_test() {
     posit_t a, b, c, d, e, f, g;
 
     a = 0x7F939D17; // Posit  658124288
@@ -27,7 +27,7 @@ int padd_test() {
     }
 }
 
-int psub_test() {
+int p32sub_test() {
     posit_t a, b, c, d, e, f, g;
 
     a = 0x7F939D17; // Posit  658124288
@@ -50,7 +50,7 @@ int psub_test() {
     }
 }
 
-int pmul_test() {
+int p32mul_test() {
     posit_t a, b, c, d, e, f, g;
 
     a = 0x6F10A532; // Posit  226.08066177368164
@@ -73,7 +73,7 @@ int pmul_test() {
     }
 }
 
-int pdiv_test() {
+int p32div_test() {
     posit_t a, b, c, d, e, f, g, h, zero;
 
     zero = 0;
@@ -100,7 +100,7 @@ int pdiv_test() {
     }
 }
 
-int psqrt_test() {
+int p32sqrt_test() {
     posit_t a, b, c, d, e, f;
 
     a = 0x6F10A532; // Posit  226.08066177368164
@@ -122,7 +122,7 @@ int psqrt_test() {
     }
 }
 
-int pmin_test() {
+int p32min_test() {
     posit_t a, b, c, d, e, f, g;
 
     a = 0x7F939D17; // Posit  658124288
@@ -145,7 +145,7 @@ int pmin_test() {
     }
 }
 
-int pmax_test() {
+int p32max_test() {
     posit_t a, b, c, d, e, f, g;
 
     a = 0x7F939D17; // Posit  658124288
@@ -168,7 +168,7 @@ int pmax_test() {
     }
 }
 
-int peq_test() {
+int p32eq_test() {
     posit_t a, b, c;
     bool d, e, f;
 
@@ -190,7 +190,7 @@ int peq_test() {
     }
 }
 
-int plt_test() {
+int p32lt_test() {
     posit_t a, b, c;
     bool d, e, f, g, h;
 
@@ -214,7 +214,7 @@ int plt_test() {
     }
 }
 
-int ple_test() {
+int p32le_test() {
     posit_t a, b, c;
     bool d, e, f, g;
 
