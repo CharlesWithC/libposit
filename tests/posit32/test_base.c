@@ -7,16 +7,16 @@
 int p32add_test() {
     posit_t a, b, c, d, e, f, g;
 
-    a = 0x7F939D17; // Posit  658124288
-    b = 0x7F6EC2BF; // Posit  196128704
-    c = 0x806E6C7B; // Posit -589761024
+    a = 0x7F939D17U; // Posit  658124288
+    b = 0x7F6EC2BFU; // Posit  196128704
+    c = 0x806E6C7BU; // Posit -589761024
     d = padd(a, b);
     e = padd(b, a);
     f = padd(c, b);
     g = padd(a, c);
 
-    if (pmvxw(d) == 0x7F99756F && pmvxw(e) == 0x7F99756F
-            && pmvxw(f) == 0x807889A6 && pmvxw(g) == 0x7F409920) {
+    if (psw(d) == 0x7F99756FU && psw(e) == 0x7F99756FU
+            && psw(f) == 0x807889A6U && psw(g) == 0x7F409920U) {
         printf("PADD test OK\n");
         return 0;
     }
@@ -30,16 +30,16 @@ int p32add_test() {
 int p32sub_test() {
     posit_t a, b, c, d, e, f, g;
 
-    a = 0x7F939D17; // Posit  658124288
-    b = 0x7F6EC2BF; // Posit  196128704
-    c = 0x806E6C7B; // Posit -589761024
+    a = 0x7F939D17U; // Posit  658124288
+    b = 0x7F6EC2BFU; // Posit  196128704
+    c = 0x806E6C7BU; // Posit -589761024
     d = psub(a, b);
     e = psub(b, a);
     f = psub(c, b);
     g = psub(a, c);
 
-    if (pmvxw(d) == 0x7F8B897E && pmvxw(e) == 0x80747682
-        && pmvxw(f) == 0x80689423 && pmvxw(g) == 0x7FA2984E) {
+    if (psw(d) == 0x7F8B897EU && psw(e) == 0x80747682U
+        && psw(f) == 0x80689423U && psw(g) == 0x7FA2984EU) {
         printf("PSUB test OK\n");
         return 0;
     }
@@ -53,16 +53,16 @@ int p32sub_test() {
 int p32mul_test() {
     posit_t a, b, c, d, e, f, g;
 
-    a = 0x6F10A532; // Posit  226.08066177368164
-    b = 0x7B9B7665; // Posit  52667.197265625
-    c = 0x87E89FBC; // Posit -4470.0166015625
+    a = 0x6F10A532U; // Posit  226.08066177368164
+    b = 0x7B9B7665U; // Posit  52667.197265625
+    c = 0x87E89FBCU; // Posit -4470.0166015625
     d = pmul(a, b);
     e = pmul(b, a);
     f = pmul(c, b);
     g = pmul(a, c);
 
-    if (pmvxw(d) == 0x7EDAD7ED && pmvxw(e) == 0x7EDAD7ED
-        && pmvxw(f) == 0x8087DEE8 && pmvxw(g) == 0x8209467B) {
+    if (psw(d) == 0x7EDAD7EDU && psw(e) == 0x7EDAD7EDU
+        && psw(f) == 0x8087DEE8U && psw(g) == 0x8209467BU) {
         printf("PMUL test OK\n");
         return 0;
     }
@@ -78,18 +78,18 @@ int p32div_test() {
 
     zero = 0;
 
-    a = 0x6F10A532; // Posit  226.08066177368164
-    b = 0x7B9B7665; // Posit  52667.197265625
-    c = 0x87E89FBC; // Posit -4470.0166015625
+    a = 0x6F10A532U; // Posit  226.08066177368164
+    b = 0x7B9B7665U; // Posit  52667.197265625
+    c = 0x87E89FBCU; // Posit -4470.0166015625
     d = pdiv(a, b);
     e = pdiv(b, a);
     f = pdiv(c, b);
     g = pdiv(a, c);
     h = pdiv(a, zero);
 
-    if (pmvxw(d) == 0x1065495c && pmvxw(e) == 0x6f47a910
-        && pmvxw(f) == 0xdd22e2b3 && pmvxw(g) == 0xe186b030
-        && pmvxw(h) == 0x80000000) {
+    if (psw(d) == 0x1065495cU && psw(e) == 0x6f47a910U
+        && psw(f) == 0xdd22e2b3U && psw(g) == 0xe186b030U
+        && psw(h) == 0x80000000U) {
         printf("PDIV test OK\n");
         return 0;
     }
@@ -103,15 +103,15 @@ int p32div_test() {
 int p32sqrt_test() {
     posit_t a, b, c, d, e, f;
 
-    a = 0x6F10A532; // Posit  226.08066177368164
-    b = 0x7B9B7665; // Posit  52667.197265625
-    c = 0x87E89FBC; // Posit -4470.0166015625
+    a = 0x6F10A532U; // Posit  226.08066177368164
+    b = 0x7B9B7665U; // Posit  52667.197265625
+    c = 0x87E89FBCU; // Posit -4470.0166015625
     d = psqrt(a);
     e = psqrt(b);
     f = psqrt(c);
 
-    if (pmvxw(d) == 0x5F0935EA && pmvxw(e) == 0x6F2BF261
-        && pmvxw(f) == 0x80000000) {
+    if (psw(d) == 0x5F0935EAU && psw(e) == 0x6F2BF261U
+        && psw(f) == 0x80000000U) {
         printf("PSQRT test OK\n");
         return 0;
     }
@@ -125,16 +125,16 @@ int p32sqrt_test() {
 int p32min_test() {
     posit_t a, b, c, d, e, f, g;
 
-    a = 0x7F939D17; // Posit  658124288
-    b = 0x7F6EC2BF; // Posit  196128704
-    c = 0x806E6C7B; // Posit -589761024
+    a = 0x7F939D17U; // Posit  658124288
+    b = 0x7F6EC2BFU; // Posit  196128704
+    c = 0x806E6C7BU; // Posit -589761024
     d = pmin(a, b);
     e = pmin(b, a);
     f = pmin(c, a);
     g = pmin(c, c);
 
-    if (pmvxw(d) == 0x7F6EC2BF && pmvxw(e) == 0x7F6EC2BF
-        && pmvxw(f) == 0x806E6C7B && pmvxw(g) == 0x806E6C7B) {
+    if (psw(d) == 0x7F6EC2BFU && psw(e) == 0x7F6EC2BFU
+        && psw(f) == 0x806E6C7BU && psw(g) == 0x806E6C7BU) {
         printf("PMIN test OK\n");
         return 0;
     }
@@ -148,16 +148,16 @@ int p32min_test() {
 int p32max_test() {
     posit_t a, b, c, d, e, f, g;
 
-    a = 0x7F939D17; // Posit  658124288
-    b = 0x7F6EC2BF; // Posit  196128704
-    c = 0x806E6C7B; // Posit -589761024
+    a = 0x7F939D17U; // Posit  658124288
+    b = 0x7F6EC2BFU; // Posit  196128704
+    c = 0x806E6C7BU; // Posit -589761024
     d = pmax(a, b);
     e = pmax(b, a);
     f = pmax(c, a);
     g = pmax(c, c);
 
-    if (pmvxw(d) == 0x7F939D17 && pmvxw(e) == 0x7F939D17
-        && pmvxw(f) == 0x7F939D17 && pmvxw(g) == 0x806E6C7B) {
+    if (psw(d) == 0x7F939D17U && psw(e) == 0x7F939D17U
+        && psw(f) == 0x7F939D17U && psw(g) == 0x806E6C7BU) {
         printf("PMAX test OK\n");
         return 0;
     }
@@ -172,9 +172,9 @@ int p32eq_test() {
     posit_t a, b, c;
     bool d, e, f;
 
-    a = 0x7F939D17; // Posit  658124288
-    b = 0x7F6EC2BF; // Posit  196128704
-    c = 0x806E6C7B; // Posit -589761024
+    a = 0x7F939D17U; // Posit  658124288
+    b = 0x7F6EC2BFU; // Posit  196128704
+    c = 0x806E6C7BU; // Posit -589761024
     d = peq(a, b);
     e = peq(b, b);
     f = peq(c, c);
@@ -194,9 +194,9 @@ int p32lt_test() {
     posit_t a, b, c;
     bool d, e, f, g, h;
 
-    a = 0x7F939D17; // Posit  658124288
-    b = 0x7F6EC2BF; // Posit  196128704
-    c = 0x806E6C7B; // Posit -589761024
+    a = 0x7F939D17U; // Posit  658124288
+    b = 0x7F6EC2BFU; // Posit  196128704
+    c = 0x806E6C7BU; // Posit -589761024
     d = plt(a, b);
     e = plt(b, a);
     f = plt(c, a);
@@ -218,9 +218,9 @@ int p32le_test() {
     posit_t a, b, c;
     bool d, e, f, g;
 
-    a = 0x7F939D17; // Posit  658124288
-    b = 0x7F6EC2BF; // Posit  196128704
-    c = 0x806E6C7B; // Posit -589761024
+    a = 0x7F939D17U; // Posit  658124288
+    b = 0x7F6EC2BFU; // Posit  196128704
+    c = 0x806E6C7BU; // Posit -589761024
     d = ple(a, b);
     e = ple(b, a);
     f = ple(c, a);

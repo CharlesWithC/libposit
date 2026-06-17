@@ -5,11 +5,18 @@
 
 #include "posit.h"
 
-// NOTE: It seems there is hardware latency issue on plw/psw/pmv.w.x/pmv.x.w
-// Various approaches of load/store/copy were attempted, and it was observed
-// that using `pmv.w.x` to load a posit value from integer in GPR, and using
-// `psw` to store a posit value to integer in memory is the only combination
-// that works for both posit16 and posit32. The cause is to be investigated.
+// NOTE: It seems there is hardware latency issue on pmvxw.
+//
+// Whether we let LLVM auto decide when to use pmvxw, or we manually call pmvxw
+// on .value(), we observe similar latency-related issues, where raw posit data
+// is not always immediately available, and may be overwritten when accessed
+// later. The current workaround is to use psw to route data through memory
+// when accessing raw posit values, which prevents LLVM from using pmvxw
+// shortcut to move data to GPR. The hardware should be investigated to
+// determine the exact cause of this issue.
+//
+// Side note:
+// Using psw also avoids sign bit extensions in posit16 when dealing with GPR.
 
 class Posit {
     posit_t v; // private field, use `value` method
@@ -24,7 +31,7 @@ public:
     // call `from_bits` to directly set posit numbers
     static Posit from_bits(posit_t x){
         Posit p;
-        p.v = pmvwx(x);
+        p.v = x;
         return p;
     }
 

@@ -3,14 +3,14 @@
 
 extern "C" {
     #include <coprosit_cpu.h>
-    #ifdef TEST_POSIT16
+    #ifdef USE_POSIT16
     #include "tests/posit16/test_base.h"
     #else
     #include "tests/posit32/test_base.h"
     #endif
 }
 
-#ifdef TEST_POSIT16
+#ifdef USE_POSIT16
 #include "tests/posit16/test_ol.hpp"
 #else
 #include "tests/posit32/test_ol.hpp"
@@ -23,7 +23,7 @@ void posit_full_tests() {
     int result = 0;
 
     // run base tests
-    #ifdef TEST_POSIT16
+    #ifdef USE_POSIT16
     result += p16add_test();
     result += p16sub_test();
     result += p16mul_test();
@@ -48,7 +48,7 @@ void posit_full_tests() {
     #endif
 
     // run operator overload tests
-    #ifdef TEST_POSIT16
+    #ifdef USE_POSIT16
     result += p16add_test_ol();
     result += p16sub_test_ol();
     result += p16mul_test_ol();

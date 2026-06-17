@@ -7,16 +7,16 @@
 int p16add_test_ol() {
     Posit a, b, c, d, e, f, g;
 
-    a = Posit::from_bits(0x7F94);
-    b = Posit::from_bits(0x7F6F);
-    c = Posit::from_bits(0x806E);
+    a = Posit::from_bits(0x7F94U);
+    b = Posit::from_bits(0x7F6FU);
+    c = Posit::from_bits(0x806EU);
     d = a + b;
     e = b + a;
     f = c + b;
     g = a + c;
 
-    if (d.value() == 0x7F9A && e.value() == 0x7F9A
-            && f.value() == 0x8078 && g.value() == 0x7F40) {
+    if (d.value() == 0x7F9AU && e.value() == 0x7F9AU
+            && f.value() == 0x8078U && g.value() == 0x7F40U) {
         printf("PADD test_ol OK\n");
         return 0;
     }
@@ -31,16 +31,16 @@ int p16add_test_ol() {
 int p16sub_test_ol() {
     Posit a, b, c, d, e, f, g;
 
-    a = Posit::from_bits(0x7F94);
-    b = Posit::from_bits(0x7F6F);
-    c = Posit::from_bits(0x806E);
+    a = Posit::from_bits(0x7F94U);
+    b = Posit::from_bits(0x7F6FU);
+    c = Posit::from_bits(0x806EU);
     d = a - b;
     e = b - a;
     f = c - b;
     g = a - c;
 
-    if (d.value() == 0x7F8C && e.value() == 0x8074
-        && f.value() == 0x8068 && g.value() == 0x7FA3) {
+    if (d.value() == 0x7F8CU && e.value() == 0x8074U
+        && f.value() == 0x8068U && g.value() == 0x7FA3U) {
         printf("PSUB test_ol OK\n");
         return 0;
     }
@@ -55,16 +55,16 @@ int p16sub_test_ol() {
 int p16mul_test_ol() {
     Posit a, b, c, d, e, f, g;
 
-    a = Posit::from_bits(0x6F12);
-    b = Posit::from_bits(0x7B9B);
-    c = Posit::from_bits(0x87E9);
+    a = Posit::from_bits(0x6F12U);
+    b = Posit::from_bits(0x7B9BU);
+    c = Posit::from_bits(0x87E9U);
     d = a * b;
     e = b * a;
     f = c * b;
     g = a * c;
 
-    if (d.value() == 0x7EDB && e.value() == 0x7EDB
-        && f.value() == 0x8088 && g.value() == 0x8209) {
+    if (d.value() == 0x7EDBU && e.value() == 0x7EDBU
+        && f.value() == 0x8088U && g.value() == 0x8209U) {
         printf("PMUL test_ol OK\n");
         return 0;
     }
@@ -81,18 +81,18 @@ int p16div_test_ol() {
 
     zero = Posit::from_bits(0);
 
-    a = Posit::from_bits(0x6F11);
-    b = Posit::from_bits(0x7B9B);
-    c = Posit::from_bits(0x87E9);
+    a = Posit::from_bits(0x6F11U);
+    b = Posit::from_bits(0x7B9BU);
+    c = Posit::from_bits(0x87E9U);
     d = a / b;
     e = b / a;
     f = c / b;
     g = a / c;
     h = a / zero;
 
-    if (d.value() == 0x1067 && e.value() == 0x6F45
-        && f.value() == 0xDD24 && g.value() == 0xE184
-        && h.value() == 0x8000) {
+    if (d.value() == 0x1067U && e.value() == 0x6F45U
+        && f.value() == 0xDD24U && g.value() == 0xE184U
+        && h.value() == 0x8000U) {
         printf("PDIV test_ol OK\n");
         return 0;
     }
@@ -107,15 +107,15 @@ int p16div_test_ol() {
 int p16sqrt_test_ol() {
     Posit a, b, c, d, e, f;
 
-    a = Posit::from_bits(0x6F11);  // Posit  226.125
-    b = Posit::from_bits(0x7B9B);  // Posit  52608
-    c = Posit::from_bits(0x87E9);  // Posit -4464
+    a = Posit::from_bits(0x6F11U);  // Posit  226.125
+    b = Posit::from_bits(0x7B9BU);  // Posit  52608
+    c = Posit::from_bits(0x87E9U);  // Posit -4464
     d = Posit::sqrt(a);
     e = Posit::sqrt(b);
     f = Posit::sqrt(c);
 
-    if (d.value() == 0x5F0A && e.value() == 0x6F2B
-            && f.value() == 0x8000) {
+    if (d.value() == 0x5F0AU && e.value() == 0x6F2BU
+            && f.value() == 0x8000U) {
         printf("PSQRT test_ol OK\n");
         return 0;
     } else {
@@ -129,16 +129,16 @@ int p16sqrt_test_ol() {
 int p16min_test_ol() {
     Posit a, b, c, d, e, f, g;
 
-    a = Posit::from_bits(0x7F94);  // Posit  671088640
-    b = Posit::from_bits(0x7F6F);  // Posit  197132288
-    c = Posit::from_bits(0x806E);  // Posit -603979776`
+    a = Posit::from_bits(0x7F94U);  // Posit  671088640
+    b = Posit::from_bits(0x7F6FU);  // Posit  197132288
+    c = Posit::from_bits(0x806EU);  // Posit -603979776`
     d = Posit::min(a, b);
     e = Posit::min(b, a);
     f = Posit::min(c, a);
     g = Posit::min(c, c);
 
-    if (d.value() == 0x7F6F && e.value() == 0x7F6F
-            && f.value() == 0x806E && g.value() == 0x806E) {
+    if (d.value() == 0x7F6FU && e.value() == 0x7F6FU
+            && f.value() == 0x806EU && g.value() == 0x806EU) {
         printf("PMIN test_ol OK\n");
         return 0;
     } else {
@@ -152,16 +152,16 @@ int p16min_test_ol() {
 int p16max_test_ol() {
     Posit a, b, c, d, e, f, g;
 
-    a = Posit::from_bits(0x7F94);  // Posit  671088640
-    b = Posit::from_bits(0x7F6F);  // Posit  197132288
-    c = Posit::from_bits(0x806E);  // Posit -603979776
+    a = Posit::from_bits(0x7F94U);  // Posit  671088640
+    b = Posit::from_bits(0x7F6FU);  // Posit  197132288
+    c = Posit::from_bits(0x806EU);  // Posit -603979776
     d = Posit::max(a, b);
     e = Posit::max(b, a);
     f = Posit::max(c, a);
     g = Posit::max(c, c);
 
-    if (d.value() == 0x7F94 && e.value() == 0x7F94
-            && f.value() == 0x7F94 && g.value() == 0x806E) {
+    if (d.value() == 0x7F94U && e.value() == 0x7F94U
+            && f.value() == 0x7F94U && g.value() == 0x806EU) {
         printf("PMAX test_ol OK\n");
         return 0;
     } else {
@@ -176,9 +176,9 @@ int p16eq_test_ol() {
     Posit a, b, c;
     bool d, e, f;
 
-    a = Posit::from_bits(0x7F94);
-    b = Posit::from_bits(0x7F6F);
-    c = Posit::from_bits(0x806E);
+    a = Posit::from_bits(0x7F94U);
+    b = Posit::from_bits(0x7F6FU);
+    c = Posit::from_bits(0x806EU);
     d = a == b;
     e = b == b;
     f = c == c;
@@ -198,9 +198,9 @@ int p16lt_test_ol() {
     Posit a, b, c;
     bool d, e, f, g, h;
 
-    a = Posit::from_bits(0x7F94);
-    b = Posit::from_bits(0x7F6F);
-    c = Posit::from_bits(0x806E);
+    a = Posit::from_bits(0x7F94U);
+    b = Posit::from_bits(0x7F6FU);
+    c = Posit::from_bits(0x806EU);
     d = a < b;
     e = b < a;
     f = c < a;
@@ -222,9 +222,9 @@ int p16le_test_ol() {
     Posit a, b, c;
     bool d, e, f, g;
 
-    a = Posit::from_bits(0x7F94);
-    b = Posit::from_bits(0x7F6F);
-    c = Posit::from_bits(0x806E);
+    a = Posit::from_bits(0x7F94U);
+    b = Posit::from_bits(0x7F6FU);
+    c = Posit::from_bits(0x806EU);
     d = a <= b;
     e = b <= a;
     f = c <= a;
