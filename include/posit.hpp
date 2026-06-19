@@ -5,6 +5,12 @@
 
 #include "posit.h"
 
+#ifdef USE_CONSTEVAL // force compile-time evaluation
+#define CONSTEXPR consteval
+#else
+#define CONSTEXPR constexpr
+#endif
+
 // NOTE: It seems there is hardware latency issue on pmvxw.
 //
 // Whether we let LLVM auto decide when to use pmvxw, or we manually call pmvxw
@@ -22,7 +28,12 @@ class Posit {
     posit_t v; // private field, use `value` method
 
 public:
-    explicit Posit() { }
+    Posit() : v(0) { }
+    explicit CONSTEXPR Posit(double x) : v(double2posit(x)) { }
+    explicit CONSTEXPR Posit(float x)  : v(double2posit(static_cast<double>(x))) { }
+
+    operator double() const { return posit2double(v); }
+    operator float()  const { return static_cast<float>(posit2double(v)); }
 
     posit_t value() {
         return psw(v);

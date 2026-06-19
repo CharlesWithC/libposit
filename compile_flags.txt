@@ -1,2 +1,0 @@
--Iinclude
--I../heepatia/sw/external/lib/drivers/coprosit_cpu/

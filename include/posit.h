@@ -6,6 +6,16 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#if POSIT_SIZE == 16
+#include "softposit/posit16.h"
+#else
+#if POSIT_SIZE == 32
+#include "softposit/posit32.h"
+#else
+#error "Invalid POSIT_SIZE"
+#endif
+#endif
+
 // use uint32_t for both posit16 and posit32 because GPR is 32bit
 // uint16_t may cause unexpected behaviors
 // this should be improved in the future along with llvm-xposit
@@ -14,6 +24,26 @@
 // i.e. the hardware is synthesized for only one of them, and same instruction
 // is used for both posit sizes. thus this library does not care posit size.
 typedef uint32_t posit_t;
+
+static inline posit_t double2posit(double x) {
+#if POSIT_SIZE == 16
+    return convertDoubleToP16(x);
+#else
+#if POSIT_SIZE == 32
+    return convertDoubleToP32(x);
+#endif
+#endif
+}
+
+static inline double posit2double(posit_t x) {
+#if POSIT_SIZE == 16
+    return convertP16ToDouble(x);
+#else
+#if POSIT_SIZE == 32
+    return convertP32ToDouble(x);
+#endif
+#endif
+}
 
 static inline posit_t padd(posit_t x, posit_t y) {
     posit_t result;
