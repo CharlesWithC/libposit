@@ -39,7 +39,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define signP32UI(a) ((bool)((uint32_t)(a) >> 31))
 #define signregP32UI(a) ((bool)(((uint32_t)(a) >> 30) & 0x1))
 
-static inline void checkExtraP32TwoBits(double f32, double temp,
+constexpr void checkExtraP32TwoBits(float f32, float temp,
                                         bool *bitsNPlusOne, bool *bitsMore) {
     temp /= 2;
     if (temp <= f32) {
@@ -50,7 +50,7 @@ static inline void checkExtraP32TwoBits(double f32, double temp,
         *bitsMore = 1;
 }
 
-static inline uint_fast32_t convertFractionP32(double f32,
+constexpr uint_fast32_t convertFractionP32(float f32,
                                                uint_fast16_t fracLength,
                                                bool *bitsNPlusOne,
                                                bool *bitsMore) {
@@ -65,7 +65,7 @@ static inline uint_fast32_t convertFractionP32(double f32,
     if (fracLength == 0)
         checkExtraP32TwoBits(f32, 1.0, bitsNPlusOne, bitsMore);
     else {
-        double temp = 1;
+        float temp = 1;
         while (true) {
             temp /= 2;
             if (temp <= f32) {
@@ -95,7 +95,7 @@ static inline uint_fast32_t convertFractionP32(double f32,
     return frac;
 }
 
-static inline uint32_t convertDoubleToP32(double f32) {
+constexpr uint32_t convertFloatToP32(float f32) {
     uint32_t result = 0;
     bool sign, regS;
     uint_fast32_t reg, frac = 0;
@@ -252,12 +252,8 @@ static inline uint32_t convertDoubleToP32(double f32) {
     return result;
 }
 
-static inline uint32_t convertFloatToP32(float a) {
-    return convertDoubleToP32((double)a);
-}
-
-static inline double convertP32ToDouble(uint32_t a) {
-    double d32;
+constexpr float convertP32ToFloat(uint32_t a) {
+    float d32;
 
     if (a == 0) {
         return 0;
@@ -273,7 +269,7 @@ static inline double convertP32ToDouble(uint32_t a) {
     uint_fast32_t reg, shift = 2, frac, tmp;
     int_fast32_t k = 0;
     int_fast8_t exp;
-    double fraction_max;
+    float fraction_max;
 
     sign = signP32UI(a);
     if (sign)
@@ -301,9 +297,9 @@ static inline double convertP32ToDouble(uint32_t a) {
     exp = tmp >> 29;
     frac = (tmp & 0x1FFFFFFF) >> shift;
 
-    fraction_max = (reg > 28) ? 1 : pow(2, 28 - reg);
-    d32 = (double)(pow(16, k) * pow(2, exp) *
-                   (1 + ((double)frac / fraction_max)));
+    fraction_max = (reg > 28) ? 1 : powf(2, 28 - reg);
+    d32 = (float)(powf(16, k) * powf(2, exp) *
+                   (1 + ((float)frac / fraction_max)));
     if (sign)
         d32 = -d32;
 

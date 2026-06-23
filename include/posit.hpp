@@ -28,37 +28,46 @@ class Posit {
     posit_t v; // private field, use `value` method
 
 public:
-    Posit() : v(0) { }
-    explicit CONSTEXPR Posit(double x) : v(double2posit(x)) { }
-    explicit CONSTEXPR Posit(float x)  : v(double2posit(static_cast<double>(x))) { }
+    CONSTEXPR Posit() : v(0) { }
 
-    operator double() const { return posit2double(v); }
-    operator float()  const { return static_cast<float>(posit2double(v)); }
+    CONSTEXPR Posit(float x) : v(float2posit(x)) { }
+    template<typename T>
+    CONSTEXPR Posit(T x) : v(float2posit(static_cast<float>(x))) { }
 
-    posit_t value() {
+    explicit operator float() const { return posit2float(v); }
+    template<typename T>
+    explicit operator T() const { return static_cast<T>(posit2float(v)); }
+
+    inline posit_t value() {
         return psw(v);
     }
 
+    inline posit_t value_unsafe() {
+        // this should only be used by library functions
+        // this should not be used by application programmers
+        return v;
+    }
+
     // call `from_bits` to directly set posit numbers
-    static Posit from_bits(posit_t x){
+    static CONSTEXPR inline Posit from_bits(posit_t x){
         Posit p;
         p.v = x;
         return p;
     }
 
-    static Posit min(Posit x, Posit y){
+    static inline Posit min(Posit x, Posit y){
         Posit p;
         p.v = pmin(x.v, y.v);
         return p;
     }
 
-    static Posit max(Posit x, Posit y){
+    static inline Posit max(Posit x, Posit y){
         Posit p;
         p.v = pmax(x.v, y.v);
         return p;
     }
 
-    static Posit sqrt(Posit x){
+    static inline Posit sqrt(Posit x){
         Posit p;
         p.v = psqrt(x.v);
         return p;
@@ -85,6 +94,7 @@ public:
     }
 
     friend inline Posit operator+(Posit x, Posit y) { return x += y; }
+    friend inline Posit operator-(Posit x) { return Posit(0) -= x; }
     friend inline Posit operator-(Posit x, Posit y) { return x -= y; }
     friend inline Posit operator*(Posit x, Posit y) { return x *= y; }
     friend inline Posit operator/(Posit x, Posit y) { return x /= y; }
@@ -92,9 +102,63 @@ public:
     friend inline bool operator==(Posit x, Posit y) { return peq(x.v, y.v); }
     friend inline bool operator< (Posit x, Posit y) { return plt(x.v, y.v); }
     friend inline bool operator<=(Posit x, Posit y) { return ple(x.v, y.v); }
-
     friend inline bool operator> (Posit x, Posit y) { return !ple(x.v, y.v); }
     friend inline bool operator>=(Posit x, Posit y) { return !plt(x.v, y.v); }
+
+    template<typename T>
+    friend inline Posit operator+(Posit x, T y) { return x += Posit(y); }
+    template<typename T>
+    friend inline Posit operator+(T x, Posit y) { return Posit(x) += y; }
+
+    template<typename T>
+    friend inline Posit operator-(Posit x, T y) { return x -= Posit(y); }
+    template<typename T>
+    friend inline Posit operator-(T x, Posit y) { return Posit(x) -= y; }
+
+    template<typename T>
+    friend inline Posit operator*(Posit x, T y) { return x *= Posit(y); }
+    template<typename T>
+    friend inline Posit operator*(T x, Posit y) { return Posit(x) *= y; }
+
+    template<typename T>
+    friend inline Posit operator/(Posit x, T y) { return x /= Posit(y); }
+    template<typename T>
+    friend inline Posit operator/(T x, Posit y) { return Posit(x) /= y; }
+
+    template<typename T>
+    friend inline bool operator==(Posit x, T y) { return peq(x.v, Posit(y).v); }
+    template<typename T>
+    friend inline bool operator==(T x, Posit y) { return peq(Posit(x).v, y.v); }
+
+    template<typename T>
+    friend inline bool operator< (Posit x, T y) { return plt(x.v, Posit(y).v); }
+    template<typename T>
+    friend inline bool operator< (T x, Posit y) { return plt(Posit(x).v, y.v); }
+
+    template<typename T>
+    friend inline bool operator<=(Posit x, T y) { return ple(x.v, Posit(y).v); }
+    template<typename T>
+    friend inline bool operator<=(T x, Posit y) { return ple(Posit(x).v, y.v); }
+
+    template<typename T>
+    friend inline bool operator> (Posit x, T y) { return !ple(x.v, Posit(y).v); }
+    template<typename T>
+    friend inline bool operator> (T x, Posit y) { return !ple(Posit(x).v, y.v); }
+
+    template<typename T>
+    friend inline bool operator>=(Posit x, T y) { return !plt(x.v, Posit(y).v); }
+    template<typename T>
+    friend inline bool operator>=(T x, Posit y) { return !plt(Posit(x).v, y.v); }
 };
+
+namespace libposit {
+    static inline Posit abs(Posit x) {
+        return Posit::from_bits(psgnjxs(x.value_unsafe(), x.value_unsafe()));
+    }
+    static inline Posit fabs(Posit x) { return abs(x); }
+
+    static inline Posit sqrt(Posit x) { return Posit::sqrt(x); }
+    static inline Posit sqrtf(Posit x) { return sqrt(x); }
+}
 
 #endif

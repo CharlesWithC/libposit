@@ -25,22 +25,22 @@
 // is used for both posit sizes. thus this library does not care posit size.
 typedef uint32_t posit_t;
 
-static inline posit_t double2posit(double x) {
+static constexpr inline posit_t float2posit(float x) {
 #if POSIT_SIZE == 16
-    return convertDoubleToP16(x);
+    return convertFloatToP16(x);
 #else
 #if POSIT_SIZE == 32
-    return convertDoubleToP32(x);
+    return convertFloatToP32(x);
 #endif
 #endif
 }
 
-static inline double posit2double(posit_t x) {
+static constexpr inline float posit2float(posit_t x) {
 #if POSIT_SIZE == 16
-    return convertP16ToDouble(x);
+    return convertP16ToFloat(x);
 #else
 #if POSIT_SIZE == 32
-    return convertP32ToDouble(x);
+    return convertP32ToFloat(x);
 #endif
 #endif
 }
@@ -178,6 +178,20 @@ static inline bool ple(posit_t x, posit_t y) {
         "ple.s  %0,%1,%2   \n"
 
         : "=r" (result)
+        : "p" (x), "p" (y)
+        :
+    );
+
+    return result;
+}
+
+static inline posit_t psgnjxs(posit_t x, posit_t y) {
+    posit_t result;
+
+    asm inline volatile (
+        "psgnjx.s %0,%1,%2 \n"
+
+        : "=p" (result)
         : "p" (x), "p" (y)
         :
     );

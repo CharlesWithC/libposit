@@ -39,7 +39,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define signP16UI(a) ((bool)((uint16_t)(a) >> 15))
 #define signregP16UI(a) ((bool)(((uint16_t)(a) >> 14) & 0x1))
 
-static inline void checkExtraTwoBitsP16(double f16, double temp, bool *bitsNPlusOne,
+constexpr void checkExtraTwoBitsP16(float f16, float temp, bool *bitsNPlusOne,
                           bool *bitsMore) {
     temp /= 2;
     if (temp <= f16) {
@@ -50,7 +50,7 @@ static inline void checkExtraTwoBitsP16(double f16, double temp, bool *bitsNPlus
         *bitsMore = 1;
 }
 
-static inline uint_fast16_t convertFractionP16(double f16, uint_fast8_t fracLength,
+constexpr uint_fast16_t convertFractionP16(float f16, uint_fast8_t fracLength,
                                  bool *bitsNPlusOne, bool *bitsMore) {
     uint_fast16_t frac = 0;
 
@@ -63,7 +63,7 @@ static inline uint_fast16_t convertFractionP16(double f16, uint_fast8_t fracLeng
     if (fracLength == 0)
         checkExtraTwoBitsP16(f16, 1.0, bitsNPlusOne, bitsMore);
     else {
-        double temp = 1;
+        float temp = 1;
         while (true) {
             temp /= 2;
             if (temp <= f16) {
@@ -95,7 +95,7 @@ static inline uint_fast16_t convertFractionP16(double f16, uint_fast8_t fracLeng
     return frac;
 }
 
-static inline uint16_t convertDoubleToP16(double f16) {
+constexpr uint16_t convertFloatToP16(float f16) {
     uint16_t result = 0;
     bool sign, regS;
     uint_fast16_t reg, frac = 0;
@@ -268,10 +268,8 @@ static inline uint16_t convertDoubleToP16(double f16) {
     return result;
 }
 
-static inline uint16_t convertFloatToP16(float a) { return convertDoubleToP16((double)a); }
-
-static inline double convertP16ToDouble(uint16_t a) {
-    double d16;
+constexpr float convertP16ToFloat(uint16_t a) {
+    float d16;
 
     if (a == 0) {
         return 0;
@@ -287,7 +285,7 @@ static inline double convertP16ToDouble(uint16_t a) {
     uint_fast16_t reg, shift = 2, frac, tmp;
     int_fast16_t k = 0;
     int_fast8_t exp;
-    double fraction_max;
+    float fraction_max;
 
     sign = signP16UI(a);
     if (sign)
@@ -315,9 +313,9 @@ static inline double convertP16ToDouble(uint16_t a) {
     exp = (tmp >> 13) & 3;
     frac = (tmp & 0x1FFF) >> shift;
 
-    fraction_max = (reg >= 12) ? 1.0 : pow(2, 12 - reg);
-    d16 = (double)(pow(16, k) * pow(2, exp) *
-                   (1 + ((double)frac / fraction_max)));
+    fraction_max = (reg >= 12) ? 1.0 : powf(2, 12 - reg);
+    d16 = (float)(powf(16, k) * powf(2, exp) *
+                   (1 + ((float)frac / fraction_max)));
     if (sign)
         d16 = -d16;
 
